@@ -1,0 +1,13 @@
+
+
+### IntelliJ IDEA ###
+.idea
+.authorization-management-service/target/
+
+
+
+
+
+
+### VS Code ###
+.vscode/
