@@ -2,7 +2,11 @@
 
 ### IntelliJ IDEA ###
 .idea
-.authorization-management-service/target/
+
+**/target/
+**/.idea/
+
+
 
 
 
