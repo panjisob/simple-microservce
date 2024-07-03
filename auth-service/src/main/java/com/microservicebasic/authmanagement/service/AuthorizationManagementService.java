@@ -13,7 +13,6 @@ import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.Map;
@@ -42,7 +41,7 @@ public class AuthorizationManagementService {
 
             log.info("ValidateToken - get&set oauth access timeout");
             int oauth2AccessTokenTimeoutSec;
-            if (AuthorizationConstant.CHANNEL_PORTAL.equals(channel)) {
+            if (AuthorizationConstant.CHANNEL_ADMIN.equals(channel)) {
                 oauth2AccessTokenTimeoutSec = 900;
             } else {
                 oauth2AccessTokenTimeoutSec = 300;

@@ -1,31 +1,45 @@
 version: "3.7"
 services:
-  product_service:
+  product-service:
     build: ./product-service
     restart: always
     ports:
       - 8080:8080
     networks:
-      - organization-mysql
+      - organization-net
     environment:
       - spring.datasource.url=jdbc:mysql://mysqldb:3306/development?allowPublicKeyRetrieval=true
-    depends_on:
+      - url.authorizationManagementService=http://auth-service:8081/authservice
       - mysqldb
-
+      - auth-service
     volumes:
       - .m2:/root/.m2
 
-
-  auth_service:
+  auth-service:
     build: ./auth-service
     restart: always
     ports:
       - 8081:8081
     networks:
-      - organization-redis
+      - organization-net
     depends_on:
       - redis
+    volumes:
+      - .m2:/root/.m2
 
+  user-service:
+    build: ./user-service
+    restart: always
+    ports:
+      - 8082:8082
+    networks:
+      - organization-net
+    environment:
+      - spring.datasource.url=jdbc:mysql://mysqldb:3306/development?allowPublicKeyRetrieval=true
+      - url.authorizationManagementService=http://auth-service:8081/authservice
+    depends_on:
+      - mysqldb
+      - auth-service
     volumes:
       - .m2:/root/.m2
 
@@ -34,7 +48,7 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - organization-redis
+      - organization-net
 
   mysqldb:
     image: "mysql:8.0"
@@ -42,7 +56,7 @@ services:
     ports:
       - 3306:3306
     networks:
-      - organization-mysql  
+      - organization-net  
     environment:
       MYSQL_DATABASE: development
       MYSQL_USER: admin
@@ -50,9 +64,9 @@ services:
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - mysql_data:/var/lib/mysql
+
 networks:
-  organization-mysql:
-  organization-redis:
+  organization-net:
 
 volumes:
   mysql_data:

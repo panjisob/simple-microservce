@@ -155,16 +155,10 @@ public class CustomRedisTokenStore implements TokenStore {
             String channel = requestParameters.get("channel");
 
             int oauth2AccessTokenTimeoutSec;
-            if (AuthorizationConstant.CHANNEL_PORTAL.equals(channel)) {
-                String value = (String) redisOperator1.get(AuthorizationConstant.SYS_PARAM,
-                        AuthorizationConstant.PARAMETER_MODULE_AUTHORIZATION +
-                                AuthorizationConstant.PARAMETER_NAME_SESSION_TIMEOUT_OP);
-                oauth2AccessTokenTimeoutSec = StringUtils.isEmpty(value) ? 900 : Integer.parseInt(value);
+            if (AuthorizationConstant.CHANNEL_ADMIN.equals(channel)) {
+                oauth2AccessTokenTimeoutSec = 900;
             } else {
-                String value = (String) redisOperator1.get(AuthorizationConstant.SYS_PARAM,
-                        AuthorizationConstant.PARAMETER_MODULE_AUTHORIZATION +
-                                AuthorizationConstant.PARAMETER_NAME_SESSION_TIMEOUT_MB);
-                oauth2AccessTokenTimeoutSec = StringUtils.isEmpty(value) ? 300 : Integer.parseInt(value);
+                oauth2AccessTokenTimeoutSec = 300;
             }
 
             var defaultOAuth2AccessToken = new DefaultOAuth2AccessToken(UUID.randomUUID().toString());

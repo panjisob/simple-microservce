@@ -26,7 +26,7 @@ public class CommonExceptionHandler extends ResponseEntityExceptionHandler {
         log.error("Exception is UNCAUGHT, details : ", e);
         ErrorDetail errorDetail = ErrorDetail.builder()
                 .errorCode("01")
-                .sourceSystem("Authorization Management")
+                .sourceSystem("user service")
                 .message(e.getMessage())
                 .engMessage("Something went wrong")
                 .idnMessage("Terjadi kesalahan")
@@ -35,5 +35,23 @@ public class CommonExceptionHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(errorDetail, HttpStatus.BAD_REQUEST);
     }
+
+    //sample
+    @ExceptionHandler(value = {IncorrectPassword.class})
+    public ResponseEntity<Object> incorrectPasswordException(IncorrectPassword e) {
+        log.error("Exception is UNCAUGHT, details : ", e);
+        ErrorDetail errorDetail = ErrorDetail.builder()
+                .errorCode("02")
+                .sourceSystem("user service")
+                .message(e.getMessage())
+                .engMessage("Password salah silahkan coba lagi")
+                .idnMessage("Password salah silahkan coba lagi")
+                .activityRefCode(MDC.get("X-B3-TraceId"))
+                .build();
+
+        return new ResponseEntity<>(errorDetail, HttpStatus.BAD_REQUEST);
+    }
+
+    // todo dynamic error message
 
 }

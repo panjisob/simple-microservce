@@ -112,7 +112,7 @@ public class AuthorizationManagementServiceTest {
 
     private OAuth2Authentication request(){
         Map<String, String> requestParameters = new HashMap<>();
-        requestParameters.put("channel", AuthorizationConstant.CHANNEL_PORTAL);
+        requestParameters.put("channel", AuthorizationConstant.CHANNEL_ADMIN);
         Collection<? extends GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         boolean approved = true;
         Set<String> scope = null;
