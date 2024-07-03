@@ -7,11 +7,9 @@
 **/.idea/
 
 
-
-
-
-
-
-
 ### VS Code ###
 .vscode/
+
+
+
+.m2

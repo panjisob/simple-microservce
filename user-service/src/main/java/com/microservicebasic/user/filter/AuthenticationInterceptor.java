@@ -1,7 +1,7 @@
-package com.microservicebasic.product.filter;
+package com.microservicebasic.user.filter;
 
-import com.microservicebasic.product.annotation.UserAuthenticate;
-import com.microservicebasic.product.dto.authmanagement.ValidateTokenResponse;
+import com.microservicebasic.user.annotation.UserAuthenticate;
+import com.microservicebasic.user.dto.authmanagement.ValidateTokenResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

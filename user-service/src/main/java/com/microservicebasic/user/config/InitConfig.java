@@ -1,8 +1,8 @@
-package com.microservicebasic.product.config;
+package com.microservicebasic.user.config;
 
-import com.microservicebasic.product.dto.ErrorDetail;
-import com.microservicebasic.product.exception.CommonRestException;
-import com.microservicebasic.product.filter.AuthenticationInterceptor;
+import com.microservicebasic.user.dto.ErrorDetail;
+import com.microservicebasic.user.exception.CommonRestException;
+import com.microservicebasic.user.filter.AuthenticationInterceptor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
