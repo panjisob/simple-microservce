@@ -3,9 +3,9 @@ package com.microservicebasic.product.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.microservicebasic.product.model.Persons;
+import com.microservicebasic.product.model.Product;
 
 @Repository
-public interface PersonRepository extends JpaRepository<Persons, Integer> {
+public interface ProductRepository extends JpaRepository<Product, Integer> {
 
 }

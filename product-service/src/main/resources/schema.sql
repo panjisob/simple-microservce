@@ -1,5 +1,6 @@
-CREATE TABLE IF NOT EXISTS persons(
-    `id` bigint(20) NOT NULL AUTO_INCREMENT,
-    `name` varchar(255) DEFAULT NULL,
-    PRIMARY KEY (`id`)
+CREATE TABLE IF NOT EXISTS products(
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    price DOUBLE NOT NULL
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

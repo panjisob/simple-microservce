@@ -7,20 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.microservicebasic.product.model.Persons;
-import com.microservicebasic.product.service.PersonService;
+import com.microservicebasic.product.model.Product;
+import com.microservicebasic.product.service.ProductService;
 
 @RestController
 public class BasicController {
 
 	@Autowired
-	private PersonService personService;
+	private ProductService productService;
 	
 	@UserAuthenticate
 	@GetMapping("/all")
-	public List<Persons> getAll() {
+	public List<Product> getAll() {
 		
-		return personService.findAll();
+		return productService.findAll();
 	}
 	
 	
