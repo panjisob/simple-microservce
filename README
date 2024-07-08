@@ -2,14 +2,6 @@
 
 This is a simple microservice project built with Spring Boot and MySQL. The project demonstrates a basic setup of a microservice with CRUD operations and a RESTful API.
 
-## Table of Contents
-
-- [Features](#features)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-- [Usage](#usage)
-  - [API Endpoints](#api-endpoints)
-
 ## Features
 
 - Spring Boot 2.1.15.RELEASE
