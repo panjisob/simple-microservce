@@ -1,15 +1,12 @@
-#
-# Build stage
-#
-FROM maven:3.8.3-openjdk-11 AS build
-COPY src /home/app/src
-COPY pom.xml /home/app
-RUN mvn -f /home/app/pom.xml clean package
+# Stage 1: Build the application
+FROM maven:3.8.5-openjdk-17 AS build
+WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
-#
-# Run stage
-#
-FROM openjdk:11-jre-slim
-COPY --from=build /home/app/target/product_service.jar /home/app/target/product_service.jar
+# Stage 2: Create the final Docker image
+FROM eclipse-temurin:17-jre
+WORKDIR /app
+COPY --from=build /app/target/product-service.jar app.jar
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","/home/app/target/product_service.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
