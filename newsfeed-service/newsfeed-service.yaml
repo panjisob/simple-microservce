@@ -1,0 +1,100 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: newsfeed-service-v1
+  namespace: local-dev
+  labels:
+    app: newsfeed-service-v1
+    app.kubernetes.io/component: newsfeed-service-v1
+    app.kubernetes.io/instance: newsfeed-service-v1
+spec:
+  ipFamilies:
+    - IPv4
+  selector:
+    app: newsfeed-service-v1
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: newsfeed-service-v1
+  namespace: local-dev
+  labels:
+    app: newsfeed-service-v1
+    app.kubernetes.io/component: newsfeed-service-v1
+    app.kubernetes.io/instance: newsfeed-service-v1
+data:
+  SERVER_PORT: '8080'
+  SERVER_SERVLET_CONTEXT_PATH: '/api/newsfeed'
+  SPRING_DATA_MONGODB_URI: 'mongodb://host.docker.internal/newsfeed'
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: newsfeed-service-v1
+  namespace: local-dev
+  labels:
+    app: newsfeed-service-v1
+    app.kubernetes.io/component: newsfeed-service-v1
+    app.kubernetes.io/instance: newsfeed-service-v1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: newsfeed-service-v1
+  template:
+    metadata:
+      name: newsfeed-service-v1
+      labels:
+        app: newsfeed-service-v1
+    spec:
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: "kubernetes.io/hostname"
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: newsfeed-service-v1
+      containers:
+        - name: newsfeed-service-v1
+          image: localhost:5000/newsfeed-service:0.0.1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: newsfeed-service-v1
+#          livenessProbe:
+#            httpGet:
+#              path: /api/pushnotification/actuator/health
+#              port: 8080
+#            failureThreshold: 3
+#            initialDelaySeconds: 60
+#            periodSeconds: 30
+#            successThreshold: 1
+#            timeoutSeconds: 30
+#          readinessProbe:
+#            httpGet:
+#              path: /api/pushnotification/actuator/health
+#              port: 8080
+#            failureThreshold: 3
+#            initialDelaySeconds: 60
+#            periodSeconds: 30
+#            successThreshold: 1
+#            timeoutSeconds: 30
+          resources:
+            requests:
+              memory: "800Mi"
+              cpu: "500m"
+            limits:
+              memory: "2048Mi"
+              cpu: "2000m"
+
+      
