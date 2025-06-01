@@ -1,12 +1,12 @@
-# Stage 1: Build the application
-FROM maven:3.8.5-openjdk-17 AS build
+FROM maven:3.9.4-eclipse-temurin-21-alpine AS builder
 WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
 
-# Stage 2: Create the final Docker image
-FROM eclipse-temurin:17-jre
+# Use JRE to run the application
+FROM openjdk:21-jdk-slim
 WORKDIR /app
-COPY --from=build /app/target/product-service.jar app.jar
+COPY --from=builder /app/target/*.jar app.jar
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+
+ENTRYPOINT exec java $JAVA_OPTS -jar app.jar

@@ -2,6 +2,8 @@ package com.microservicebasic.user.filter;
 
 import com.microservicebasic.user.annotation.UserAuthenticate;
 import com.microservicebasic.user.dto.authmanagement.ValidateTokenResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,9 +16,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 @Slf4j
 public class AuthenticationInterceptor implements HandlerInterceptor {
 
@@ -27,8 +26,6 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     private String validateTokenUrl;
 
     private static final String ACCESS_TOKEN = "Authorization";
-    private static final String REDIS_KEY_REQUEST_ID = "req_id";
-    private static final long EXPIRED_MILLISECONDS = 300L;
 
 
     @Override

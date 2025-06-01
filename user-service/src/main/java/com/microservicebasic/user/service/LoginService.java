@@ -1,24 +1,21 @@
 package com.microservicebasic.user.service;
 
-import com.microservicebasic.user.dto.authmanagement.RevokeTokenResponse;
 import com.microservicebasic.user.dto.login.LoginRequest;
 import com.microservicebasic.user.dto.login.LoginResponse;
 import com.microservicebasic.user.exception.IncorrectPassword;
 import com.microservicebasic.user.exception.UserInActiveException;
 import com.microservicebasic.user.exception.UsernameNotFoundException;
 import com.microservicebasic.user.model.UserAuth;
-import com.microservicebasic.user.model.UserProfile;
 import com.microservicebasic.user.repository.UserAuthRepository;
 import com.microservicebasic.user.repository.UserProfileRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.client.ResourceAccessException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Enumeration;
 import java.util.Objects;
 

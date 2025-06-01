@@ -1,15 +1,12 @@
-#
-# Build stage
-#
-FROM maven:3.8.3-openjdk-11 AS build
-COPY src /home/app/src
-COPY pom.xml /home/app
-RUN mvn -f /home/app/pom.xml clean package
+FROM maven:3.9.4-eclipse-temurin-21-alpine AS builder
+WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
-#
-# Run stage
-#
-FROM openjdk:11-jre-slim
-COPY --from=build /home/app/target/user_service.jar /home/app/target/user_service.jar
+# Use JRE to run the application
+FROM openjdk:21-jdk-slim
+WORKDIR /app
+COPY --from=builder /app/target/*.jar app.jar
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","/home/app/target/user_service.jar"]
+
+ENTRYPOINT exec java $JAVA_OPTS -jar app.jar

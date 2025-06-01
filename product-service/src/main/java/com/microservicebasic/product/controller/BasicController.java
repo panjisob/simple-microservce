@@ -1,20 +1,19 @@
 package com.microservicebasic.product.controller;
 
-import java.util.List;
-
 import com.microservicebasic.product.annotation.UserAuthenticate;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.microservicebasic.product.model.Product;
+import com.microservicebasic.product.service.ProductService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.microservicebasic.product.model.Product;
-import com.microservicebasic.product.service.ProductService;
+import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class BasicController {
 
-	@Autowired
-	private ProductService productService;
+	private final ProductService productService;
 	
 	@UserAuthenticate
 	@GetMapping("/all")

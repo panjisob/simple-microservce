@@ -1,72 +1,33 @@
-version: "3.7"
+version: "3.8"
 services:
-  product-service:
-    build: ./product-service
-    restart: always
-    ports:
-      - 8080:8080
-    networks:
-      - organization-net
+  postgres:
+    image: postgres:15
+    container_name: postgres
     environment:
-      - spring.datasource.url=jdbc:mysql://mysqldb:3306/development?allowPublicKeyRetrieval=true
-      - url.authorizationManagementService=http://auth-service:8081/authservice
-      - mysqldb
-      - auth-service
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
     volumes:
-      - .m2:/root/.m2
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - organization-net 
 
-  auth-service:
-    build: ./auth-service
+  mongodb:
+    image: mongo:6.0
+    container_name: mongodb
     restart: always
     ports:
-      - 8081:8081
+      - "27017:27017"
     networks:
-      - organization-net
-    depends_on:
-      - redis
+      - organization-net 
     volumes:
-      - .m2:/root/.m2
-
-  user-service:
-    build: ./user-service
-    restart: always
-    ports:
-      - 8082:8082
-    networks:
-      - organization-net
-    environment:
-      - spring.datasource.url=jdbc:mysql://mysqldb:3306/development?allowPublicKeyRetrieval=true
-      - url.authorizationManagementService=http://auth-service:8081/authservice
-    depends_on:
-      - mysqldb
-      - auth-service
-    volumes:
-      - .m2:/root/.m2
-
-  redis:
-    image: redis
-    ports:
-      - "6379:6379"
-    networks:
-      - organization-net
-
-  mysqldb:
-    image: "mysql:8.0"
-    restart: always
-    ports:
-      - 3306:3306
-    networks:
-      - organization-net  
-    environment:
-      MYSQL_DATABASE: development
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: admin
-      MYSQL_ROOT_PASSWORD: root
-    volumes:
-      - mysql_data:/var/lib/mysql
+      - mongo_data:/data/db
 
 networks:
   organization-net:
 
 volumes:
   mysql_data:
+  postgres_data:
