@@ -9,7 +9,8 @@ This is a simple microservice project built with Spring Boot and MySQL. The proj
 - RESTful API
 - Redis
 - Mongodb
-- Docker and Docker Compose for containerization
+- Docker and Docker Compose
+- kubernetes
 
 ## Getting Started
 
