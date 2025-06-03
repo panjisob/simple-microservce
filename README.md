@@ -5,9 +5,10 @@ This is a simple microservice project built with Spring Boot and MySQL. The proj
 ## Features
 
 - Spring Boot 2.1.15.RELEASE
-- MySQL Database
+- Postgres Database
 - RESTful API
 - Redis
+- Mongodb
 - Docker and Docker Compose for containerization
 
 ## Getting Started
@@ -18,6 +19,7 @@ Before you begin, ensure you have met the following requirements:
 
 - Docker
 - Docker Compose
+- Kubernates
 
 ## Usage
 
@@ -25,3 +27,4 @@ Before you begin, ensure you have met the following requirements:
 - POST /userservice/login
 - POST /userservice/logout 
 - GET /productservice/all
+- GET /v1/news
