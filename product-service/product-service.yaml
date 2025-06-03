@@ -1,0 +1,100 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-service-v1
+  namespace: local-dev
+  labels:
+    app: product-service-v1
+    app.kubernetes.io/component: product-service-v1
+    app.kubernetes.io/instance: product-service-v1
+spec:
+  ipFamilies:
+    - IPv4
+  selector:
+    app: product-service-v1
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: product-service-v1
+  namespace: local-dev
+  labels:
+    app: product-service-v1
+    app.kubernetes.io/component: product-service-v1
+    app.kubernetes.io/instance: product-service-v1
+data:
+  SERVER_PORT: '8080'
+  SERVER_SERVLET_CONTEXT_PATH: '/api/productservice'
+  SPRING_DATASOURCE_URL: 'jdbc:postgresql://host.docker.internal:5432/postgres'
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-service-v1
+  namespace: local-dev
+  labels:
+    app: product-service-v1
+    app.kubernetes.io/component: product-service-v1
+    app.kubernetes.io/instance: product-service-v1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: product-service-v1
+  template:
+    metadata:
+      name: product-service-v1
+      labels:
+        app: product-service-v1
+    spec:
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: "kubernetes.io/hostname"
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: product-service-v1
+      containers:
+        - name: product-service-v1
+          image: localhost:5000/product-service:0.0.1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: product-service-v1
+#          livenessProbe:
+#            httpGet:
+#              path: /api/pushnotification/actuator/health
+#              port: 8080
+#            failureThreshold: 3
+#            initialDelaySeconds: 60
+#            periodSeconds: 30
+#            successThreshold: 1
+#            timeoutSeconds: 30
+#          readinessProbe:
+#            httpGet:
+#              path: /api/pushnotification/actuator/health
+#              port: 8080
+#            failureThreshold: 3
+#            initialDelaySeconds: 60
+#            periodSeconds: 30
+#            successThreshold: 1
+#            timeoutSeconds: 30
+          resources:
+            requests:
+              memory: "800Mi"
+              cpu: "500m"
+            limits:
+              memory: "2048Mi"
+              cpu: "2000m"
+
+      
