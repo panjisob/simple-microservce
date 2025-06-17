@@ -17,7 +17,7 @@ spec:
     - protocol: TCP
       port: 8080
       targetPort: 8080
-  type: LoadBalancer
+  type: ClusterIP
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -32,6 +32,10 @@ data:
   SERVER_PORT: '8080'
   SERVER_SERVLET_CONTEXT_PATH: '/api/productservice'
   SPRING_DATASOURCE_URL: 'jdbc:postgresql://host.docker.internal:5432/postgres'
+  MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "health,info"
+  MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS: "always"
+  MANAGEMENT_SERVER_PORT: "8080"
+  MANAGEMENT_ENDPOINTS_WEB_BASE_PATH: "/actuator"
 
 ---
 apiVersion: apps/v1
@@ -63,7 +67,7 @@ spec:
               app: product-service-v1
       containers:
         - name: product-service-v1
-          image: localhost:5000/product-service:0.0.1
+          image: localhost:5000/product-service:0.0.2
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
@@ -71,24 +75,24 @@ spec:
           envFrom:
             - configMapRef:
                 name: product-service-v1
-#          livenessProbe:
-#            httpGet:
-#              path: /api/pushnotification/actuator/health
-#              port: 8080
-#            failureThreshold: 3
-#            initialDelaySeconds: 60
-#            periodSeconds: 30
-#            successThreshold: 1
-#            timeoutSeconds: 30
-#          readinessProbe:
-#            httpGet:
-#              path: /api/pushnotification/actuator/health
-#              port: 8080
-#            failureThreshold: 3
-#            initialDelaySeconds: 60
-#            periodSeconds: 30
-#            successThreshold: 1
-#            timeoutSeconds: 30
+          livenessProbe:
+            httpGet:
+              path: /api/productservice/actuator/health
+              port: 8080
+            failureThreshold: 3
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /api/productservice/actuator/health
+              port: 8080
+            failureThreshold: 3
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 30
           resources:
             requests:
               memory: "800Mi"

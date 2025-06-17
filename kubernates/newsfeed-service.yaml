@@ -17,7 +17,7 @@ spec:
     - protocol: TCP
       port: 8080
       targetPort: 8080
-  type: LoadBalancer
+  type: ClusterIP
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -30,7 +30,7 @@ metadata:
     app.kubernetes.io/instance: newsfeed-service-v1
 data:
   SERVER_PORT: '8080'
-  SERVER_SERVLET_CONTEXT_PATH: '/api/newsfeed'
+  SPRING_WEBFLUX_BASE_PATH: '/api/newsfeed'
   SPRING_DATA_MONGODB_URI: 'mongodb://host.docker.internal/newsfeed'
 
 ---
@@ -63,7 +63,7 @@ spec:
               app: newsfeed-service-v1
       containers:
         - name: newsfeed-service-v1
-          image: localhost:5000/newsfeed-service:0.0.1
+          image: localhost:5000/newsfeed-service:0.0.2
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

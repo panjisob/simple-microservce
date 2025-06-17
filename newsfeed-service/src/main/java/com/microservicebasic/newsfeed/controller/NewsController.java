@@ -3,6 +3,7 @@ package com.microservicebasic.newsfeed.controller;
 import com.microservicebasic.newsfeed.model.News;
 import com.microservicebasic.newsfeed.service.NewsService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -11,12 +12,12 @@ import reactor.core.publisher.Mono;
 import java.time.Instant;
 
 @RestController
-@RequestMapping("/v1/news")
 @RequiredArgsConstructor
+@RequestMapping("/v1")
 public class NewsController {
     private final NewsService newsService;
 
-    @GetMapping
+    @GetMapping("/all")
     public Flux<News> getNewsPage(
             @RequestParam(required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant cursor,
@@ -24,7 +25,7 @@ public class NewsController {
         return newsService.getNewsPage(cursor, limit);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public Mono<News> createNews(@RequestBody News news) {
         return newsService.createNews(news);
     }

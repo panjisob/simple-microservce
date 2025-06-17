@@ -29,3 +29,18 @@ Before you begin, ensure you have met the following requirements:
 - POST /userservice/logout 
 - GET /productservice/all
 - GET /v1/news
+
+
+helm install ingress-nginx ingress-nginx/ingress-nginx \
+  --namespace ingress-nginx --create-namespace \
+  --set controller.kind=Deployment \
+  --set controller.admissionWebhooks.enabled=false \
+  --set controller.service.type=NodePort \
+  --set controller.service.nodePorts.http=30080 \
+  --set controller.service.nodePorts.https=30443 \
+  --set controller.hostNetwork=false \
+  --set defaultBackend.enabled=true \
+  --set controller.minReadySeconds=5 \
+  --set controller.progressDeadlineSeconds=60
+
+

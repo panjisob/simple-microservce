@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: main-ingress
+  namespace: local-dev
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: localhost
+      http:
+        paths:
+          - path: /api/productservice(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: product-service-v1
+                port:
+                  number: 8080
+          - path: /api/newsfeed(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: newsfeed-service-v1
+                port:
+                  number: 8080
+          - path: /api/userservice(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: user-service-v1
+                port:
+                  number: 8080

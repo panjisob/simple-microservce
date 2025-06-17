@@ -16,16 +16,6 @@
     <description>authorization server for generating and verifying token</description>
 
     <properties>
-        <sonar.coverage.exclusions>
-            **/config/*.java,
-            **/constant/*.java,
-            **/dto/*.java,
-            **/exception/*.java,
-            **/model/*.java,
-            **/token/*.java,
-            **/AuthorizationServiceApplication.java
-        </sonar.coverage.exclusions>
-
         <java.version>11</java.version>
         <spring-boot-bom.version>2.5.12.Final</spring-boot-bom.version>
         <spring-boot-maven-plugin.version>2.5.12</spring-boot-maven-plugin.version>
