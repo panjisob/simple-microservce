@@ -1,36 +1,51 @@
-# Simple Microservice
+# 🧩 Simple Microservice Project
 
-This is a simple microservice project built with Spring Boot and MySQL. The project demonstrates a basic setup of a microservice with CRUD operations and a RESTful API.
+A simple microservices-based project built using Spring Boot 3.2.5, PostgreSQL, Redis, MongoDB, and containerized with Docker. This project demonstrates basic CRUD operations and RESTful APIs, complete with Kubernetes orchestration and local Docker registry support.
 
-## Features
+---
 
-- Spring Boot 2.1.15.RELEASE
-- Postgres Database
-- RESTful API
-- Redis
-- Mongodb
-- Docker and Docker Compose
-- kubernetes
+## 🚀 Features
 
-## Getting Started
+- ✅ Spring Boot 3.2.5
+- 🐘 PostgreSQL Database
+- 📦 Redis for caching
+- 🍃 MongoDB for document-based storage
+- 📡 RESTful APIs
+- 🐳 Docker & Docker Compose support
+- ☸️ Kubernetes & Helm for deployment
+- 📥 Local Docker Registry
 
-### Prerequisites
+---
 
-Before you begin, ensure you have met the following requirements:
+## 🛠️ Getting Started
 
-- Docker
-- Docker Compose
-- Kubernates
+### 📋 Prerequisites
 
-## Usage
+Make sure the following tools are installed:
 
-### API Endpoints
-- POST /userservice/login
-- POST /userservice/logout 
-- GET /productservice/all
-- GET /v1/news
+- [Docker](https://www.docker.com/)
+- [Docker Compose](https://docs.docker.com/compose/)
+- [Rancher Desktop](https://rancherdesktop.io/) or compatible Kubernetes environment
+- [Helm](https://helm.sh/) (for managing Kubernetes deployments)
 
+---
 
+## ⚙️ Installation
+
+### 1. Use Docker Compose to start PostgreSQL, MongoDB, Redis, and the local registry
+
+```bash
+docker compose up -d
+```
+
+### 2. Use Makefile for build all image and push to local registry
+```bash
+make all USERNAME=localhost:5000
+make pus USERNAME=localhost:5000
+```
+
+### 3. Install and setup ingress in local cluster
+```bash
 helm install ingress-nginx ingress-nginx/ingress-nginx \
   --namespace ingress-nginx --create-namespace \
   --set controller.kind=Deployment \
@@ -42,5 +57,12 @@ helm install ingress-nginx ingress-nginx/ingress-nginx \
   --set defaultBackend.enabled=true \
   --set controller.minReadySeconds=5 \
   --set controller.progressDeadlineSeconds=60
+```
+### 4. Run kubernates
+```bash
+kubectl create namespace local-dev
+kubectl apply -f "name file yaml in folder kuberbates"
+```
+
 
 
