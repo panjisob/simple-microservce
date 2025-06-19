@@ -25,9 +25,21 @@ services:
     volumes:
       - mongo_data:/data/db
 
+  registry:
+    image: registry:2
+    container_name: registry
+    restart: always
+    ports:
+      - "5000:5000"
+    volumes:
+      - registry_data:/var/lib/registry
+    networks:
+      - organization-net
+
 networks:
   organization-net:
 
 volumes:
-  mysql_data:
   postgres_data:
+  mongo_data:
+  registry_data:
