@@ -4,7 +4,7 @@ metadata:
   name: main-ingress
   namespace: local-dev
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   ingressClassName: nginx
   rules:

@@ -30,7 +30,7 @@ metadata:
     app.kubernetes.io/instance: product-service-v1
 data:
   SERVER_PORT: '8080'
-  SERVER_SERVLET_CONTEXT_PATH: '/api/productservice'
+  SERVER_SERVLET_CONTEXT_PATH: '/'
   SPRING_DATASOURCE_URL: 'jdbc:postgresql://host.docker.internal:5432/postgres'
   MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "health,info"
   MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS: "always"
@@ -48,7 +48,7 @@ metadata:
     app.kubernetes.io/component: product-service-v1
     app.kubernetes.io/instance: product-service-v1
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: product-service-v1
@@ -67,7 +67,7 @@ spec:
               app: product-service-v1
       containers:
         - name: product-service-v1
-          image: localhost:5000/product-service:0.0.2
+          image: localhost:5000/product-service:0.0.1
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

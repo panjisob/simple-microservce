@@ -44,7 +44,7 @@ metadata:
     app.kubernetes.io/component: user-service-v1
     app.kubernetes.io/instance: user-service-v1
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: user-service-v1

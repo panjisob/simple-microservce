@@ -30,7 +30,7 @@ metadata:
     app.kubernetes.io/instance: newsfeed-service-v1
 data:
   SERVER_PORT: '8080'
-  SPRING_WEBFLUX_BASE_PATH: '/api/newsfeed'
+  SPRING_WEBFLUX_BASE_PATH: '/'
   SPRING_DATA_MONGODB_URI: 'mongodb://host.docker.internal/newsfeed'
 
 ---
@@ -44,7 +44,7 @@ metadata:
     app.kubernetes.io/component: newsfeed-service-v1
     app.kubernetes.io/instance: newsfeed-service-v1
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: newsfeed-service-v1
@@ -63,7 +63,7 @@ spec:
               app: newsfeed-service-v1
       containers:
         - name: newsfeed-service-v1
-          image: localhost:5000/newsfeed-service:0.0.2
+          image: localhost:5000/newsfeed-service:0.0.1
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
@@ -71,24 +71,6 @@ spec:
           envFrom:
             - configMapRef:
                 name: newsfeed-service-v1
-#          livenessProbe:
-#            httpGet:
-#              path: /api/pushnotification/actuator/health
-#              port: 8080
-#            failureThreshold: 3
-#            initialDelaySeconds: 60
-#            periodSeconds: 30
-#            successThreshold: 1
-#            timeoutSeconds: 30
-#          readinessProbe:
-#            httpGet:
-#              path: /api/pushnotification/actuator/health
-#              port: 8080
-#            failureThreshold: 3
-#            initialDelaySeconds: 60
-#            periodSeconds: 30
-#            successThreshold: 1
-#            timeoutSeconds: 30
           resources:
             requests:
               memory: "800Mi"
